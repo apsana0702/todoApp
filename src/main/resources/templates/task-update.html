@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Task</title>
+</head>
+<body>
+<h1>Update Task</h1>
+<form th:action="@{/tasks/update}" method="post">
+    <input type="hidden" name="id" th:value="${task.id}" />
+    <input type="text" name="title" th:value="${task.title}" placeholder="Title" />
+    <input type="text" name="description" th:value="${task.description}" placeholder="Description" />
+    <input type="date" name="dueDate" th:value="${task.dueDate}" placeholder="Due Date" />
+    <button type="submit">Update Task</button>
+</form>
+<a href="/tasks/">Back to Task List</a>
+</body>
+</html>

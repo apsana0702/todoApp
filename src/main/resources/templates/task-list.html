@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-info {
+            flex: 1;
+            margin-right: 90px; /* Add margin to create space */
+        }
+        .task-actions {
+            display: flex;
+        }
+        .task-actions form, .task-actions a {
+            margin-left: 10px;
+        }
+        form button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button, a {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-decoration: none; /* Added */
+        }
+        button:hover, a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Task List</h1>
+<ul>
+    <li th:each="task : ${tasks}">
+        <div class="task-info">
+            <span th:text="${task.title}">Task Title</span>
+            <span th:text="${task.description}">Task Description</span>
+            <span th:text="${task.dueDate}">Due Date</span>
+        </div>
+        <div class="task-actions">
+            <form th:action="@{'/tasks/complete/' + ${task.id}}" method="post" th:if="${not task.completed}">
+                <button type="submit">Not Completed</button>
+            </form>
+            <form th:action="@{'/tasks/uncomplete/' + ${task.id}}" method="post" th:if="${task.completed}">
+                <button type="submit">Completed</button>
+            </form>
+            <form th:action="@{'/tasks/delete/' + ${task.id}}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+            <a th:href="@{'/tasks/update/' + ${task.id}}">Edit</a>
+        </div>
+    </li>
+</ul>
+<form th:action="@{/tasks/create}" method="post">
+    <input type="text" name="title" placeholder="Title" />
+    <input type="text" name="description" placeholder="Description" />
+    <input type="date" name="dueDate" placeholder="Due Date" />
+    <button type="submit">Add Task</button>
+</form>
+</body>
+</html>
